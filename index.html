@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 影片創作與教學整合資源</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f3f4f6;
+            scroll-behavior: auto; /* Disabled standard smooth scroll to use JS */
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .color-card-1 { background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%); }
+        .color-card-2 { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
+        .color-card-3 { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
+        .color-card-4 { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+        .color-card-5 { background: linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%); }
+
+        .btn-hover-effect {
+            transition: all 0.3s ease;
+        }
+        .btn-hover-effect:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #f12711, #f5af19);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <!-- 導覽列 -->
+    <nav class="glass-header fixed w-full z-50 top-0 transition-all duration-300 shadow-sm" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="scrollToSection('home')">
+                    <span class="font-black text-2xl tracking-wider gradient-text">AI Creator Hub</span>
+                </div>
+                <!-- 電腦版選單 -->
+                <div class="hidden md:flex space-x-2">
+                    <button onclick="scrollToSection('canva')" class="px-4 py-2 rounded-full font-bold text-sm text-white bg-gradient-to-r from-pink-500 to-rose-400 btn-hover-effect">Canva 影片整合</button>
+                    <button onclick="scrollToSection('prompts')" class="px-4 py-2 rounded-full font-bold text-sm text-white bg-gradient-to-r from-purple-500 to-indigo-500 btn-hover-effect">AI 提示詞與範例</button>
+                    <button onclick="scrollToSection('grok-mobile')" class="px-4 py-2 rounded-full font-bold text-sm text-white bg-gradient-to-r from-green-400 to-emerald-500 btn-hover-effect">Grok 手機版</button>
+                    <button onclick="scrollToSection('grok-pc')" class="px-4 py-2 rounded-full font-bold text-sm text-white bg-gradient-to-r from-blue-400 to-cyan-500 btn-hover-effect">Grok 電腦版</button>
+                    <button onclick="scrollToSection('thematic')" class="px-4 py-2 rounded-full font-bold text-sm text-white bg-gradient-to-r from-orange-400 to-amber-500 btn-hover-effect">主題式影片</button>
+                </div>
+                <!-- 手機版選單按鈕 -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- 手機版下拉選單 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-xl absolute w-full rounded-b-2xl pb-4">
+            <div class="flex flex-col px-4 space-y-3 pt-2">
+                <button onclick="scrollToSection('canva')" class="w-full text-left px-4 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400">Canva 影片整合</button>
+                <button onclick="scrollToSection('prompts')" class="w-full text-left px-4 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-purple-500 to-indigo-500">AI 提示詞與範例</button>
+                <button onclick="scrollToSection('grok-mobile')" class="w-full text-left px-4 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-green-400 to-emerald-500">Grok 手機版</button>
+                <button onclick="scrollToSection('grok-pc')" class="w-full text-left px-4 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-blue-400 to-cyan-500">Grok 電腦版</button>
+                <button onclick="scrollToSection('thematic')" class="w-full text-left px-4 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-orange-400 to-amber-500">主題式影片</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首頁 Hero Section -->
+    <section id="home" class="pt-32 pb-20 px-4 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[60vh] text-center">
+        <div class="inline-block p-2 px-6 rounded-full bg-yellow-200 text-yellow-800 font-bold mb-6 animate-bounce">
+            探索 AI 影片創作的無限可能 🚀
+        </div>
+        <h1 class="text-5xl md:text-7xl font-black mb-8 leading-tight">
+            讓創意透過 <span class="gradient-text">AI 驅動</span><br>輕鬆製作專業影片
+        </h1>
+        <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+            結合 Canva、Grok、ChatGPT 以及強大的 AI 生成工具，從照片動畫到史詩級主題腳本，一站式掌握全方位影片創作技巧！
+        </p>
+        <button onclick="scrollToSection('canva')" class="px-8 py-4 rounded-full text-xl font-bold text-white bg-gray-900 hover:bg-gray-700 btn-hover-effect shadow-xl mb-8">
+            開始探索旅程 ↓
+        </button>
+
+        <!-- 新增快速連結區塊 -->
+        <div class="flex flex-wrap justify-center gap-4 mt-6">
+            <a href="https://www.canva.com/" target="_blank" class="px-6 py-3 rounded-full font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 btn-hover-effect shadow-lg flex items-center gap-2">
+                🎨 前往 Canva
+            </a>
+            <a href="https://grok.com/" target="_blank" class="px-6 py-3 rounded-full font-bold text-white bg-gradient-to-r from-teal-400 to-emerald-500 btn-hover-effect shadow-lg flex items-center gap-2">
+                🤖 前往 Grok
+            </a>
+            <a href="https://padlet.com/lubloger/padlet-90fp7rl3yqqplzm7" target="_blank" class="px-6 py-3 rounded-full font-bold text-white bg-gradient-to-r from-orange-400 to-amber-500 btn-hover-effect shadow-lg flex items-center gap-2">
+                ✨ 分享影片作品 (Padlet)
+            </a>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-24">
+
+        <!-- Section 1: Canva 影片整合 -->
+        <section id="canva" class="scroll-mt-24">
+            <div class="color-card-1 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-white opacity-20 rounded-full blur-3xl"></div>
+                <h2 class="text-4xl font-black text-gray-900 mb-8 border-b-4 border-pink-400 pb-4 inline-block">🎨 Canva 影片整合簡報</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white bg-opacity-60 backdrop-blur-md rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-2xl font-bold mb-4 text-pink-700">Canva 可以做什麼？</h3>
+                        <p class="mb-4 text-gray-800">Canva 是一個主打「拖拉式設計」的線上設計平台，無須專業背景即可快速產出視覺作品：</p>
+                        <ul class="list-disc pl-5 space-y-2 font-medium text-gray-700">
+                            <li>設計社群媒體圖片</li>
+                            <li>製作簡報 (Presentation)</li>
+                            <li>做海報、傳單、履歷</li>
+                            <li>製作資訊圖表 (Infographic)</li>
+                            <li>製作簡單影片</li>
+                        </ul>
+                        <div class="mt-6 p-4 bg-pink-100 rounded-xl">
+                            <span class="font-bold text-pink-800">💡 帳號說明：</span> 個人免費版永久使用 (功能受限)，專業版約每月 15 美元。
+                        </div>
+                        
+                        <!-- 新增 Canva 按鈕 -->
+                        <a href="https://www.canva.com/" target="_blank" class="inline-block mt-6 px-6 py-3 bg-pink-600 hover:bg-pink-700 text-white rounded-xl font-bold btn-hover-effect shadow-md border border-pink-500">
+                            🚀 前往 Canva 官方網站開始設計
+                        </a>
+                    </div>
+
+                    <div class="bg-white bg-opacity-60 backdrop-blur-md rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-2xl font-bold mb-4 text-pink-700">影片製作與編輯技巧</h3>
+                        <ul class="space-y-4 font-medium text-gray-700">
+                            <li class="flex items-start">
+                                <span class="bg-pink-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">1</span>
+                                <div><strong class="text-gray-900">由範本開始：</strong> 選擇橫式影片、利用篩選器尋找特定主題 (如：旅遊、最新消息)，快速自訂範本。</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-pink-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">2</span>
+                                <div><strong class="text-gray-900">雙模式切換：</strong> 具備「管理頁面」與「編輯頁面」，並提供直觀的 <span class="text-blue-600">時間軸模式</span> 與 <span class="text-blue-600">頁面模式</span>。</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-pink-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">3</span>
+                                <div><strong class="text-gray-900">豐富素材庫：</strong> 超過 1億4仟萬素材 (Models、字體、圖片)。</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-pink-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">4</span>
+                                <div><strong class="text-gray-900">AI 輔助去背：</strong> 上傳個人相片或影片，一鍵使用「背景移除工具」。</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: AI 影片創作範例 & 提示詞 -->
+        <section id="prompts" class="scroll-mt-24">
+            <div class="color-card-2 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-white opacity-20 rounded-full blur-3xl"></div>
+                <h2 class="text-4xl font-black text-gray-900 mb-8 border-b-4 border-purple-400 pb-4 inline-block">🎬 AI 影片創作與提示詞</h2>
+
+                <div class="bg-white bg-opacity-70 backdrop-blur-md rounded-2xl p-6 shadow-sm mb-8">
+                    <h3 class="text-2xl font-bold mb-6 text-purple-800">🔥 經典主題作品集 (點擊按鈕開啟)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <a href="https://www.youtube.com/watch?v=y7cA3Bs2kFI&list=PLU-8o76TOvQUlnIF1wdVkXhUZGrN77Kuk" target="_blank" class="block w-full text-center px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold btn-hover-effect">▶️ AI 影片創作範例合集</a>
+                        <a href="https://www.youtube.com/shorts/fah23Oj_X7Q" target="_blank" class="block w-full text-center px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-bold btn-hover-effect">🏹 Grok 草船借箭</a>
+                        <a href="https://www.youtube.com/shorts/f68pQHk3hiA" target="_blank" class="block w-full text-center px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-bold btn-hover-effect">🚶 人物遊景點</a>
+                        <a href="https://www.youtube.com/shorts/y7cA3Bs2kFI" target="_blank" class="block w-full text-center px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-bold btn-hover-effect">🙏 向經典致敬</a>
+                        <a href="https://www.youtube.com/shorts/DVTQw5PNfpc" target="_blank" class="block w-full text-center px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-bold btn-hover-effect">🐴 馬年冷笑話</a>
+                        <a href="https://www.youtube.com/shorts/6WYhe7_UD_0" target="_blank" class="block w-full text-center px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-bold btn-hover-effect">🎬 穿越經典電影場景</a>
+                        <a href="https://www.youtube.com/shorts/FRGLE3y54o8" target="_blank" class="block w-full text-center px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-bold btn-hover-effect">🍔 精典漢堡</a>
+                        <a href="https://www.youtube.com/shorts/y584lCi3yWQ" target="_blank" class="block w-full text-center px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-bold btn-hover-effect">⚡ AI 玩和皮卡丘握</a>
+                        <a href="https://www.youtube.com/shorts/Kat2fiq0O30" target="_blank" class="block w-full text-center px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-bold btn-hover-effect">🎥 向經典電影致敬</a>
+                        <a href="https://www.youtube.com/shorts/DAWcV5EoEYw" target="_blank" class="block w-full text-center px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-bold btn-hover-effect">🤖 男生的科幻電影夢想</a>
+                        <a href="https://www.youtube.com/shorts/FsTGfIzetS0" target="_blank" class="block w-full text-center px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-bold btn-hover-effect">🏃 匆匆忙忙連滾帶爬</a>
+                        <a href="https://www.youtube.com/shorts/CBzxwc36Dlc" target="_blank" class="block w-full text-center px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-bold btn-hover-effect">⛵ Sora AI 辛巴達航海</a>
+                        <a href="https://www.youtube.com/watch?v=BtSLh8RVRIM&t=5s" target="_blank" class="block w-full text-center px-4 py-3 bg-indigo-800 hover:bg-indigo-900 text-white rounded-xl font-bold btn-hover-effect col-span-1 sm:col-span-2 lg:col-span-3">⚔️ AI電影_霍去病_完整版 (製作成本3000人民幣)</a>
+                    </div>
+
+                    <!-- 新增 Padlet 作品分享按鈕區塊 -->
+                    <div class="mt-10 text-center bg-gradient-to-r from-yellow-50 to-orange-50 p-8 rounded-3xl border-2 border-orange-200 shadow-inner">
+                        <h4 class="text-3xl font-black text-orange-600 mb-4">📢 秀出你的創意作品！</h4>
+                        <p class="text-gray-600 mb-6 font-medium">完成你的 AI 影片了嗎？快來上傳與大家一起交流分享吧！</p>
+                        <a href="https://padlet.com/lubloger/padlet-90fp7rl3yqqplzm7" target="_blank" class="inline-block px-10 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white rounded-full font-black text-xl btn-hover-effect shadow-xl border-4 border-white">
+                            ✨ 點此進入 Padlet 繳交與分享影片
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-white bg-opacity-70 backdrop-blur-md rounded-2xl p-6 shadow-sm">
+                    <h3 class="text-2xl font-bold mb-4 text-purple-800">📖 《草船借箭》連續腳本提示詞</h3>
+                    <p class="mb-4 text-gray-700">要求：Q版卡通風格、連續6段影片、風格一致、場景流暢、畫面無文字。適用 Sora / Runway / Pika / Grok。</p>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                            <h4 class="font-bold text-lg mb-1">① 黎明江面・諸葛亮佈局</h4>
+                            <p class="text-sm text-gray-600">清晨薄霧籠罩的寬闊江面，Q版諸葛亮站在木船上，神情從容微笑，手持羽扇輕揮；船邊綁滿草把與草人，造型誇張可愛。遠方隱約看到曹軍水寨的影子。整體以柔和淡色、Q版比例、卡通質感呈現，畫面無任何文字。 (比例 9:16)</p>
+                        </div>
+                        <div class="p-4 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                            <h4 class="font-bold text-lg mb-1">② 魯肅驚訝・草船出發</h4>
+                            <p class="text-sm text-gray-600">Q版魯肅睜大眼，滿臉問號般的驚訝表情，站在碼頭看著草船緩緩向濃霧中滑行；諸葛亮站在船頭輕鬆微笑。水面帶有誇張的Q版波紋動態效果，霧氣濃密但色調明亮可愛，畫面無文字。</p>
+                        </div>
+                        <div class="p-4 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                            <h4 class="font-bold text-lg mb-1">③ 曹操軍營・弓箭如雨</h4>
+                            <p class="text-sm text-gray-600">Q版曹操在軍帳前驚覺敵船靠近，氣得鬍鬚豎起；身後Q版士兵們慌忙拉弓，一波又一波的箭矢像卡通特效般密集飛射出去。箭矢插滿草船外層，鏡頭呈現誇張搞笑的彈跳效果。</p>
+                        </div>
+                        <div class="p-4 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                            <h4 class="font-bold text-lg mb-1">④ 草船滿箭・霧中穿行</h4>
+                            <p class="text-sm text-gray-600">草船外層已被箭矢完全覆蓋，像穿上箭矢刺蝟外衣，畫面誇張幽默；濃霧中船身輕快滑動，船上草人插滿箭矢，搖晃可愛。諸葛亮神情安定，羽扇輕晃。</p>
+                        </div>
+                        <div class="p-4 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                            <h4 class="font-bold text-lg mb-1">⑤ 曹軍驚呆・草船返航</h4>
+                            <p class="text-sm text-gray-600">遠景呈現曹軍士兵一臉呆滯、眼睛變成Q版圓圈震驚表情；草船慢慢遠離，滿滿的箭矢在霧中閃出誇張的卡通亮光。江面微波動，晨光逐漸變亮。</p>
+                        </div>
+                        <div class="p-4 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                            <h4 class="font-bold text-lg mb-1">⑥ 回到吳軍・魯肅大悟</h4>
+                            <p class="text-sm text-gray-600">草船順利回到吳軍碼頭，Q版士兵們張大嘴驚呼；魯肅雙眼發亮、嘴呈O形，終於明白諸葛亮的計策。諸葛亮淡定微笑、羽扇輕揮，船上插滿箭矢的草人搖晃出趣味感。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Grok 生活照片動起來 (Mobile) -->
+        <section id="grok-mobile" class="scroll-mt-24">
+            <div class="color-card-3 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute right-0 top-0 w-64 h-64 bg-white opacity-30 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+                <h2 class="text-4xl font-black text-gray-900 mb-8 border-b-4 border-teal-500 pb-4 inline-block">📱 Grok 手機版：生活照片動起來</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white bg-opacity-70 backdrop-blur-md rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-2xl font-bold mb-4 text-teal-800">操作步驟</h3>
+                        <ol class="list-decimal pl-5 space-y-3 font-medium text-gray-800">
+                            <li>於 App Store 或 Google Play 安裝 <strong>Grok</strong> (馬斯克的 AI)。</li>
+                            <li>啟動 Grok，點選上方的 <strong>Imagine</strong> 標籤。</li>
+                            <li>尋找 <strong>「讓您的相片動起來」</strong> (Create from template) 區塊，點擊「查看全部」。</li>
+                            <li>挑選並上傳你的照片。</li>
+                            <li>影片會自動轉換，等待進度條完成。</li>
+                            <li>點選 <strong>下載按鈕 (向下箭頭)</strong> 即可將影片儲存至手機。</li>
+                        </ol>
+
+                        <!-- 新增 Grok 按鈕 -->
+                        <a href="https://grok.com/" target="_blank" class="inline-block mt-6 px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold btn-hover-effect shadow-md border border-teal-500">
+                            🤖 立即前往 Grok 體驗
+                        </a>
+                    </div>
+
+                    <div class="bg-white bg-opacity-70 backdrop-blur-md rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-4 text-teal-800">動畫三種模式</h3>
+                            <ul class="space-y-3 font-medium text-gray-800">
+                                <li class="bg-teal-50 p-3 rounded-lg border-l-4 border-teal-400"><strong>🎉 Fun (趣味)：</strong> 會產出極具創意的搞笑結果 (例如：搭車賣香腸、爬上木塔等)。</li>
+                                <li class="bg-teal-50 p-3 rounded-lg border-l-4 border-teal-400"><strong>✨ Normal (普通)：</strong> Grok 會為您進行一般程度的動畫化。</li>
+                                <li class="bg-teal-50 p-3 rounded-lg border-l-4 border-teal-400"><strong>🔍 Upscale (升解析度)：</strong> 提升影片畫質。</li>
+                            </ul>
+                            <p class="mt-4 text-sm text-red-600 font-bold">* 注意：上傳相片沒有 Spicy 模式。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-white bg-opacity-70 backdrop-blur-md rounded-2xl p-6 shadow-sm">
+                    <h3 class="text-2xl font-bold mb-4 text-teal-800">進階技巧與分享</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex-1 min-w-[250px] p-4 bg-gray-50 rounded-xl">
+                            <h4 class="font-bold text-gray-900 mb-2">以文字生成影片</h4>
+                            <p class="text-sm text-gray-700">在 Imagine 下方輸入提示詞 (例如：「男子穿越到了三國時期，還參與了蜀國的草船借箭，並且拿著手機自拍錄影做記錄。」) 即可直接生成。</p>
+                        </div>
+                        <div class="flex-1 min-w-[250px] p-4 bg-gray-50 rounded-xl">
+                            <h4 class="font-bold text-gray-900 mb-2">管理與分享</h4>
+                            <p class="text-sm text-gray-700">點選「愛心」可加入我的最愛。下載後可開啟 Facebook App，點選「建立限時動態」或發文，輕鬆分享你的 AI 大作！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Grok 影音整合技巧 (PC) -->
+        <section id="grok-pc" class="scroll-mt-24">
+            <div class="color-card-4 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute left-1/2 top-0 w-80 h-80 bg-white opacity-30 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
+                <h2 class="text-4xl font-black text-gray-900 mb-8 border-b-4 border-orange-400 pb-4 inline-block">💻 Grok 電腦版：影音整合技巧</h2>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <div class="bg-white bg-opacity-80 backdrop-blur-md rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-2xl font-bold mb-4 text-orange-800">第一步：NotebookLM 知識圖卡</h3>
+                        <p class="text-sm text-gray-600 mb-4">(使用 NotebookLM 生成知識圖卡，每天免費 3 次)</p>
+                        <ol class="list-decimal pl-5 space-y-2 font-medium text-gray-800">
+                            <li>建立新的筆記本。</li>
+                            <li>上傳來源選擇 <strong class="text-red-500">YouTube</strong>。</li>
+                            <li>貼上影片網址，例如：
+                                <a href="https://www.youtube.com/watch?v=pmgevXgvxh4" target="_blank" class="inline-block mt-2 px-3 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded-md transition text-sm">🎥 台灣藍鵲影片連結</a>
+                            </li>
+                            <li>進入對話介面後，點選右上角 <strong>「資訊圖表」</strong>。</li>
+                            <li>開啟生成的「台灣藍鵲-動態知識圖卡」並下載圖片。</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-white bg-opacity-80 backdrop-blur-md rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-2xl font-bold mb-4 text-orange-800">第二步：Grok 圖片轉動畫</h3>
+                        <div class="mb-4">
+                            <a href="https://grok.com/" target="_blank" class="inline-block px-5 py-2 bg-gray-900 hover:bg-gray-700 text-white rounded-lg font-bold btn-hover-effect">前往 Grok 電腦版網站</a>
+                        </div>
+                        <ol class="list-decimal pl-5 space-y-2 font-medium text-gray-800">
+                            <li>使用 Google 帳號註冊/登入。</li>
+                            <li>左側選單點選 <strong>Imagine</strong>。</li>
+                            <li>點選 <strong>「上傳文件」</strong>，並確認下方格式切換為 <strong>「影片 (生成影片)」</strong>。</li>
+                            <li>上傳剛剛從 NotebookLM 下載的知識圖表。</li>
+                            <li>在提示詞輸入：「<span class="text-orange-700">上傳圖片中的文字都不要更改維持原樣，小圖示依類型變成可愛有趣的動畫效果</span>」。</li>
+                            <li>點擊送出，生成後點選下載即可！</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: 主題式影片製作 -->
+        <section id="thematic" class="scroll-mt-24">
+            <div class="color-card-5 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden border border-gray-200">
+                <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-200 opacity-40 rounded-full blur-3xl transform translate-x-1/3 translate-y-1/3"></div>
+                <h2 class="text-4xl font-black text-gray-900 mb-8 border-b-4 border-blue-400 pb-4 inline-block">🎥 完整工作流：主題式影片製作</h2>
+
+                <div class="bg-white bg-opacity-80 backdrop-blur-md rounded-2xl p-8 shadow-sm text-center mb-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">三步搞定微電影級大作</h3>
+                    <div class="flex flex-col md:flex-row justify-center items-stretch gap-4">
+                        <div class="flex-1 bg-blue-50 p-6 rounded-xl border border-blue-100 flex flex-col items-center">
+                            <div class="text-4xl mb-3">📝</div>
+                            <h4 class="font-bold text-lg mb-2 text-blue-900">1. ChatGPT</h4>
+                            <p class="text-gray-600 text-sm">撰寫故事連續性文案，切分出多個鏡頭的精準提示詞。</p>
+                        </div>
+                        <div class="flex-1 bg-blue-50 p-6 rounded-xl border border-blue-100 flex flex-col items-center">
+                            <div class="text-4xl mb-3">🖼️ ➔ 🎞️</div>
+                            <h4 class="font-bold text-lg mb-2 text-blue-900">2. Grok Imagine</h4>
+                            <p class="text-gray-600 text-sm">先用文字生成圖片 (確保風格一致)，再將生成的圖片轉成動畫影片。記得依序下載並命名為 01.mp4, 02.mp4...</p>
+                        </div>
+                        <div class="flex-1 bg-blue-50 p-6 rounded-xl border border-blue-100 flex flex-col items-center">
+                            <div class="text-4xl mb-3">✂️</div>
+                            <h4 class="font-bold text-lg mb-2 text-blue-900">3. Canva / 剪映</h4>
+                            <p class="text-gray-600 text-sm">將分段的影片素材匯入，整合時間軸，加上配樂或文字，完成最終產出。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-yellow-50 rounded-2xl border-l-8 border-yellow-400 shadow-sm">
+                    <h4 class="text-xl font-bold text-yellow-800 mb-2">⚠️ Sora 與 Grok 的使用差異：</h4>
+                    <ul class="list-disc pl-5 font-medium text-gray-800 space-y-2">
+                        <li><strong>Sora：</strong> 不能上傳有人物的相片。適合做為「專業導演拍攝」的影片主角。</li>
+                        <li><strong>Grok：</strong> 無法學習人臉和聲音。但上傳相片使用 <span class="text-pink-600 font-bold">Fun (趣味模式)</span> 非常好玩，適合生活照片惡搞或趣味化。</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-10 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="font-bold text-xl mb-4 text-gray-200">AI Creator Hub</p>
+            <p class="text-sm">由聰賢老師的教學文件彙整而成。版權歸原作者所有。</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactions -->
+    <script>
+        // 觸發捲動的 JavaScript onclick 函數
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                // 扣除固定導覽列的高度 (大約 80px)
+                const headerOffset = 80;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+
+                // 如果手機版選單開著，點擊後自動收起
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            }
+        }
+
+        // 手機版選單切換邏輯
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // 導覽列滾動效果 (加上陰影與微調透明度)
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 10) {
+                navbar.classList.add('shadow-md');
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.style.background = 'rgba(255, 255, 255, 0.85)';
+            }
+        });
+    </script>
+</body>
+</html>
